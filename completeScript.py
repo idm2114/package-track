@@ -2,6 +2,8 @@
 #to run from one place easily
 #author: ian macleod
 
+print("Welcome to PackageTracker!")
+
 import inputPackage
 import tracker
 
