@@ -7,7 +7,7 @@ import time
 import os
 
 trackinglist = []
-
+finaltrackinglist = []
 with open("trackingnumbers.txt", "r") as fileHandle:
     for line in fileHandle:
         current = line[:-1]
@@ -34,16 +34,15 @@ for number in trackinglist:
         #waiting for new page to load
         results = driver.find_elements_by_class_name("media-body")
         for result in results:
-            # print(result.text)
-       
         # trying to remove listed number if item was delivered
-            if (result.text == "Delivered"):
-                trackinglist.remove(number)
+            if ("Delivered" in result.text):
                 delivered = True
-
+    
         # writing contents to new temp file
         with open ('tempfile.txt', 'w') as filehandle:
             for result in results:
+                if ("WE KNOW WHERE YOUR STUFF IS." in result.text):
+                    continue
                 filehandle.write('%s\n' % result.text)
 
         # comparing the results of old and new files if old file exists
@@ -67,17 +66,29 @@ for number in trackinglist:
         except:
             with open((number)+'.txt', "w") as filehandle:
                 for result in results: 
+                    if ("WE KNOW WHERE YOUR STUFF IS." in result.text):
+                        continue
                     filehandle.write('%s\n' % result.text)
 
     if (delivered):
-        print(" ")
         print("package " + number + " was delivered, tracking number removed from list")
-        # cleaning out old textfiles for delivered packages
-        os.remove((number)+'.txt')
+        try:
+            os.remove((number)+'.txt')
+            continue
+        except:
+            continue
+
+    finaltrackinglist.append(number)
+
 #updating tracking list txt file
 with open ('trackingnumbers.txt', 'w') as filehandle:
-    for item in trackinglist:
+    for item in finaltrackinglist:
         filehandle.write('%s\n' % item)
 
 #removing tempfile 
 os.remove("tempfile.txt")
+
+print("program complete!")
+
+
+
