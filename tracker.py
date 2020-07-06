@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -21,9 +23,12 @@ for number in trackinglist:
     print(number)
 
     #selenium
-    with webdriver.Firefox() as driver:
+    #runs in background 
+    fireFoxOptions = webdriver.FirefoxOptions()
+    fireFoxOptions.set_headless()
+    with webdriver.Firefox(firefox_options=fireFoxOptions) as driver:
         driver.get("https://www.packagetrackr.com")
-        print(driver.title)
+        #print(driver.title)
         #importing tracking list from csv
 
         search = driver.find_element_by_name("n")
@@ -86,9 +91,11 @@ with open ('trackingnumbers.txt', 'w') as filehandle:
         filehandle.write('%s\n' % item)
 
 #removing tempfile 
-os.remove("tempfile.txt")
-
-print("program complete!")
+try: 
+    os.remove("tempfile.txt")
+except: 
+    continue
+#print("program complete!")
 
 
 
