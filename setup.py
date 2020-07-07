@@ -38,6 +38,6 @@ setup(
     'Programming Language :: Python :: 3.6',
     ],
   scripts=[
-    "bin/package-track"
+    "bin/complete-script"
     ],
 )
