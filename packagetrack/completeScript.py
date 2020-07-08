@@ -9,8 +9,8 @@ f = Figlet(font="slant")
 
 print(f.renderText("packagetracker"))
 
-import getemails
-import inputPackage
-import tracker
+import packagetrack.getemails
+import packagetrack.inputPackage
+import packagetrack.tracker
 
 # print("Thanks for using our basic package tracker!")
