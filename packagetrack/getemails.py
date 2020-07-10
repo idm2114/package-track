@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 import pickle
-import os.path
+import os
 #imports needed for pulling emails from google api
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -54,7 +54,7 @@ def ListMessagesMatchingQuery(service, user_id, query=''):
                                          pageToken=page_token).execute()
         messages.extend(response['messages'])
    
-    print("We scanned your email for tracking numbers. There were " + str(len(messages)) + " messages that matched the query string " + query)
+    # print("We scanned your email for tracking numbers. There were " + str(len(messages)) + " messages that matched the query string " + query)
     final_list = []
     for message in messages:
         final_list.append(message["id"])
@@ -143,10 +143,8 @@ def main():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    
     try:
-        os.makedir("~/.package-track")
-        os.makedir("~/.package-track/bin")
+        os.makedirs("/Users/ian/.package-track/bin")
     except:
         pass
 
@@ -188,7 +186,7 @@ def main():
                 #the same length for iteration below)
                 outputarray.append(".")
         #writing to a new output file
-        with open ('~/.package-track/bin/tracking_from_email.txt', 'w') as filehandle:  
+        with open ('/Users/ian/.package-track/bin/tracking_from_email.txt', 'w') as filehandle:  
             prev = ""
             for (item, date) in zip(outputarray, datearray):
                 timeframe = datetime.today() - timedelta(days=28)

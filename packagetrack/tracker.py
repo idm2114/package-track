@@ -10,7 +10,7 @@ import os
 
 trackinglist = []
 finaltrackinglist = []
-with open("~/.package-track/bin/trackingnumbers.txt", "r") as fileHandle:
+with open("/Users/ian/.package-track/bin/trackingnumbers.txt", "r") as fileHandle:
     for line in fileHandle:
         current = line[:-1]
         trackinglist.append(current)
@@ -50,7 +50,7 @@ for number in trackinglist:
         if ("Delivered" in result.text):
             delivered = True
     # writing contents to new temp file
-    with open ('~/.package-track/bin/tempfile.txt', 'w') as filehandle:
+    with open ('/Users/ian/.package-track/bin/tempfile.txt', 'w') as filehandle:
         for result in results:
             if ("WE KNOW WHERE YOUR STUFF IS." in result.text):
                 continue
@@ -60,7 +60,7 @@ for number in trackinglist:
     # returning difference to provide most accurate (recent) tracking info
     try: 
         oldfile = open((number)+'.txt', "r+")
-        tempfile = open("~/.package-track/bin/tempfile.txt", "r+")
+        tempfile = open("/Users/ian/.package-track/bin/tempfile.txt", "r+")
         old_dict = oldfile.readlines()
         new_dict = tempfile.readlines()
         oldfile.close()
@@ -70,12 +70,12 @@ for number in trackinglist:
         if diff: 
             print(diff[0].rstrip())
             old_dict = new_dict
-            with open ("~/.package-track/bin/"+(number)+'.txt', "w") as filehandle:
+            with open ("/Users/ian/.package-track/bin/"+(number)+'.txt', "w") as filehandle:
                 for line in old_dict:
                     filehandle.write('%s\n' % line.rstrip())
     # if older version of the file isn't found, create it based on temp file
     except:
-        with open("~/.package-track/bin/"+(number)+'.txt', "w") as filehandle:
+        with open("/Users/ian/.package-track/bin/"+(number)+'.txt', "w") as filehandle:
             for result in results: 
                 if ("WE KNOW WHERE YOUR STUFF IS." in result.text):
                     continue
@@ -84,24 +84,22 @@ for number in trackinglist:
     if (delivered):
         print("package " + number + " was delivered, tracking number removed from list")
         try:
-            os.remove((number)+'.txt')
+            os.remove("/Users/ian/.package-track/bin/"+ (number)+'.txt')
         except:
             pass
 
     finaltrackinglist.append(number)
 
 #updating tracking list txt file
-with open ('~/.package-track/bin/trackingnumbers.txt', 'w') as filehandle:
+with open ('/Users/ian/.package-track/bin/trackingnumbers.txt', 'w') as filehandle:
     for item in finaltrackinglist:
         filehandle.write('%s\n' % item)
 
 #removing tempfile 
 try: 
-    os.remove("~/.package-track/bin/tempfile.txt")
-    os.remove("~/.package-track/bin/tracking_from_email.txt")
+    os.remove("/Users/ian/.package-track/bin/tempfile.txt")
+    os.remove("/Users/ian/.package-track/bin/tracking_from_email.txt")
 except: 
     pass 
 #print("program complete!")
-
-
 

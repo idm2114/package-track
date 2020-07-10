@@ -7,7 +7,7 @@ import os
 import re
 
 trackinglist = []
-path = "~/.package-track/bin/"
+path = "/Users/ian/.package-track/bin/"
 files = os.listdir(path)
 for file in files:
     if file.endswith(".txt"):
@@ -33,7 +33,7 @@ if not trackinglist:
 
 emailtrackinglist = []
 try: 
-    with open("~/.package-track/bin/tracking_from_email.txt", "r") as fileHandle:
+    with open("/Users/ian/.package-track/bin/tracking_from_email.txt", "r") as fileHandle:
         for line in fileHandle:  
             current = line[:-1]  
             emailtrackinglist.append(current)
@@ -68,7 +68,7 @@ while (more):
        more = False
 
 #writing list to txt file
-with open ('~/.package-track/bin/trackingnumbers.txt', 'w') as filehandle:
+with open ('/Users/ian/.package-track/bin/trackingnumbers.txt', 'w') as filehandle:
     for item in trackinglist:
         filehandle.write('%s\n' % item)
 
