@@ -4,18 +4,19 @@ import pandas as pd
 import numpy as np
 import csv
 import os 
-
+import re
 
 trackinglist = []
-files = os.listdir(".")
+path = "~/.package-track/bin/"
+files = os.listdir(path)
 for file in files:
     if file.endswith(".txt"):
         filename = file.split(".")[0]
         regex = ["^(94)[0-9]{20}$", "^(92)[0-9]{20}$", "^[0-9]{20}$", "^(1Z)[0-9A-Z]{16}$", 
             "^[0-9]{9}$", "^[0-9]{26}$", "^[0-9]{15}$", "^[0-9]{12}$", "^[0-9]{22}$",
             "^(EC)[0-9]{9}(US)$", "^[0-9]{10}$"]
-         for expr in regex:     
-            if re.match(expr, word):
+        for expr in regex:     
+            if re.match(expr, filename):
                 trackinglist.append(filename)
 
 ''' checking existing tracking numbers ''' 
@@ -30,26 +31,28 @@ if not trackinglist:
 
 ''' checking tracking numbers found from parsing emails ''' 
 
-emailrackinglist = []
+emailtrackinglist = []
 try: 
-    with open("tracking_from_email.txt", "r") as fileHandle:
+    with open("~/.package-track/bin/tracking_from_email.txt", "r") as fileHandle:
         for line in fileHandle:  
             current = line[:-1]  
             emailtrackinglist.append(current)
-except:
-    continue
-
-if (emailtrackinglist):
-    print("We found the following tracking numbers from your email: ")
-    for number in emailtrackinglist:
-        print(number)
-    include = input("Would you like to add any of these tracking numbers to PackageTracker? [y / n] ")
-    if (include == "y"):
+    if (emailtrackinglist):
+        print("We found the following tracking numbers from your email: ")
         for number in emailtrackinglist:
             print(number)
-            add = input("Add this tracking number? [y / n] ")
-            if (add == "y"):
-                trackinglist.append(number)
+        include = input("Would you like to add any of these tracking numbers to PackageTracker? [y / n] ")
+        if (include == "y"):
+            for number in emailtrackinglist:
+                print(number)
+                add = input("Add this tracking number? [y / n] ")
+                if (add == "y"):
+                    trackinglist.append(number)
+except:
+    """do nothing"""
+    pass
+
+
 
 more = False
 
@@ -65,7 +68,7 @@ while (more):
        more = False
 
 #writing list to txt file
-with open ('trackingnumbers.txt', 'w') as filehandle:
+with open ('~/.package-track/bin/trackingnumbers.txt', 'w') as filehandle:
     for item in trackinglist:
         filehandle.write('%s\n' % item)
 
