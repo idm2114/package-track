@@ -143,12 +143,13 @@ def main():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
+    print("file ran")
     try:
         os.makedirs("/Users/ian/.package-track/bin")
     except:
         pass
 
-    checkEmail = input("Do you want package-track to automatically find tracking numbers from your email? [y / n]")
+    checkEmail = input("Do you want package-track to automatically find tracking numbers from your email? [y / n] ")
     if (checkEmail == "y"):
         if os.path.exists('token.pickle'):
             with open('token.pickle', 'rb') as token:

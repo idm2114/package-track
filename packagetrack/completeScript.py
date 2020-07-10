@@ -9,7 +9,6 @@ f = Figlet(font="slant")
 
 print(f.renderText("packagetracker"))
 
-import os.path
 import packagetrack.getemails
 import packagetrack.inputPackage
 import packagetrack.tracker
