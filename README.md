@@ -24,7 +24,7 @@ package-track is an easy to use package tracker that can automate the process of
 
 ### Using OAuth Client ID
 
-- This is the case where your application or a script is accessing spreadsheets on behalf of an end user. When you use this scenario, your application or a script will ask the end user (or yourself if you’re running it) to grant access to the user’s data.
+This is the case where package-track is going to ask the end user (or yourself if you’re running it) to grant access to the user’s data. Here's how to grant access:
 
 - Enable API Access for a Project if you haven’t done it yet by using this link: https://developers.google.com/gmail/api/quickstart/python.
 - Click "Enable the Gmail API".
@@ -32,7 +32,7 @@ package-track is an easy to use package tracker that can automate the process of
 - A message will appear telling you that the credentials have been created successfully.
 - Download the credentials by clicking the Download button.
 - Move the downloaded file to ```~/.package-track/bin/credentials.json```.
-- *Note: The default name for this OAuth client is Quickstart. We recommend changing the name to package-track, but it is by no means necessary for the functionality of the program.
+ *Note: The default name for this OAuth client is Quickstart. We recommend changing the name to package-track, but it is by no means necessary for the functionality of the program.
 
 ### Installation
 
@@ -43,9 +43,9 @@ To install package-track, simply use pip install:
 $ pip install package-track
 ```
 
-### Running package-track
+# Running package-track
 
-To run package-track, type ```package-track``` at your command line and follow the prompts! 
+To run package-track, simply open your command line and type in ```package-track``` at the prompt line! 
 
 ### Development
 
