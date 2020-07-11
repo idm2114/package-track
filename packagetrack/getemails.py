@@ -153,7 +153,7 @@ def main():
     
     checkEmail = input("Do you want package-track to automatically find tracking numbers from your email? [y / n] ")
     if (checkEmail == "y"):
-        if os.path.exists('token.pickle'):
+        if os.path.exists('/Users/ian/.package-track/bin/token.pickle'):
             with open('token.pickle', 'rb') as token:
                 creds = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
@@ -163,7 +163,7 @@ def main():
             else:
                 try:
                     flow = InstalledAppFlow.from_client_secrets_file(
-                    'credentials.json', SCOPES)
+                    '/Users/ian/.package-track/bin/credentials.json', SCOPES)
                 except:
                     sys.exit("It looks like you haven't downloaded the credentials.json file from Gmail's API. Please visit the README for more information on how to authenticate!")
                 creds = flow.run_local_server(port=0)
