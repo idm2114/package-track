@@ -43,6 +43,10 @@ To install package-track, simply use pip install:
 $ pip install package-track
 ```
 
+### Running package-track
+
+To run package-track, type ```package-track``` at your command line and follow the prompts! 
+
 ### Development
 
 Want to contribute? Great!
