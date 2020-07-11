@@ -22,11 +22,6 @@ import sys
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
-'''
-def setPath():
-    return os.path
-'''
-
 """List all Messages of the user's mailbox matching the query."""
 
 def ListMessagesMatchingQuery(service, user_id, query=''):
@@ -137,70 +132,68 @@ def ParseMimeMessage(msg_id, message):
 
     return plaintext
 
-def main():
-    """Shows basic usage of the Gmail API.
-    """
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    try:    
-        os.makedirs("/Users/ian/.package-track/bin")
-    except:
-        pass
 
-    os.chdir("/Users/ian/.package-track/bin")
-    
-    checkEmail = input("Do you want package-track to automatically find tracking numbers from your email? [y / n] ")
-    if (checkEmail == "y"):
-        if os.path.exists('/Users/ian/.package-track/bin/token.pickle'):
-            with open('token.pickle', 'rb') as token:
-                creds = pickle.load(token)
-        # If there are no (valid) credentials available, let the user log in.
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                try:
-                    flow = InstalledAppFlow.from_client_secrets_file(
-                    '/Users/ian/.package-track/bin/credentials.json', SCOPES)
-                except:
-                    sys.exit("It looks like you haven't downloaded the credentials.json file from Gmail's API. Please visit the README for more information on how to authenticate!")
-                creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
-            with open('token.pickle', 'wb') as token:
-                pickle.dump(creds, token)
+"""Shows basic usage of the Gmail API.
+"""
+creds = None
+# The file token.pickle stores the user's access and refresh tokens, and is
+# created automatically when the authorization flow completes for the first
+# time.
+try:    
+    os.makedirs("/Users/ian/.package-track/bin")
+except:
+    pass
 
-        service = build('gmail', 'v1', credentials=creds)
-        #get list of messages that mention the phrase tracking number
-        messageList = ListMessagesMatchingQuery(service, "me", query="tracking number")
+os.chdir("/Users/ian/.package-track/bin")
 
-        outputarray = []
-        datearray = []
+checkEmail = input("Do you want package-track to automatically find tracking numbers from your email? [y / n] ")
+if (checkEmail == "y"):
+    if os.path.exists('/Users/ian/.package-track/bin/token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            try:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                '/Users/ian/.package-track/bin/credentials.json', SCOPES)
+            except:
+                sys.exit("It looks like you haven't downloaded the credentials.json file from Gmail's API. Please visit the README for more information on how to authenticate!")
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
 
-        #iterating through messages in list to filter
-        for messageid in messageList:
-            # print(messageid)
-            date = GetMessageDate(service, "me", messageid)
-            datearray.append(date)
-            message = GetMimeMessage(service, "me", messageid)
-            output = ParseMimeMessage(messageid, message)
-            if output != "":
-                outputarray.append(output)
-            else:
-                #add placeholder value (only used to make arrays
-                #the same length for iteration below)
-                outputarray.append(".")
-        #writing to a new output file
-        with open ('/Users/ian/.package-track/bin/tracking_from_email.txt', 'w') as filehandle:  
-            prev = ""
-            for (item, date) in zip(outputarray, datearray):
-                timeframe = datetime.today() - timedelta(days=28)
-                date = datetime.strptime(date, "%Y/%m/%d")
-                if (timeframe < date):
-                    if ((item != prev) & (item != ".")):
-                        filehandle.write('%s\n' % item)
-                prev = item
+    service = build('gmail', 'v1', credentials=creds)
+    #get list of messages that mention the phrase tracking number
+    messageList = ListMessagesMatchingQuery(service, "me", query="tracking number")
 
-if __name__ == '__main__':
-   main()
+    outputarray = []
+    datearray = []
+
+    #iterating through messages in list to filter
+    for messageid in messageList:
+        # print(messageid)
+        date = GetMessageDate(service, "me", messageid)
+        datearray.append(date)
+        message = GetMimeMessage(service, "me", messageid)
+        output = ParseMimeMessage(messageid, message)
+        if output != "":
+            outputarray.append(output)
+        else:
+            #add placeholder value (only used to make arrays
+            #the same length for iteration below)
+            outputarray.append(".")
+    #writing to a new output file
+    with open ('/Users/ian/.package-track/bin/tracking_from_email.txt', 'w') as filehandle:  
+        prev = ""
+        for (item, date) in zip(outputarray, datearray):
+            timeframe = datetime.today() - timedelta(days=28)
+            date = datetime.strptime(date, "%Y/%m/%d")
+            if (timeframe < date):
+                if ((item != prev) & (item != ".")):
+                    filehandle.write('%s\n' % item)
+            prev = item
+
