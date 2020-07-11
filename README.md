@@ -18,11 +18,21 @@ package-track is an easy to use package tracker that can automate the process of
 ### For everything else: 
 - pandas, csv, re, itertools 
 
-I recognize that this is a ridiculous number of dependencies for a package to function. However, I hope that most (or at least some) of these libraries are already installed. If you are looking to install any of these, simply use 
-```sh 
-$ pip install [package-name] 
-```
-and insert the name of the package listed above. 
+# Authentication
+
+- **To allow package-track to automatically find tracking numbers from emails you need to set up the Gmail API and authenticate and authorize your application.**
+
+### Using OAuth Client ID
+
+- This is the case where your application or a script is accessing spreadsheets on behalf of an end user. When you use this scenario, your application or a script will ask the end user (or yourself if you’re running it) to grant access to the user’s data.
+
+- Enable API Access for a Project if you haven’t done it yet by using this link: https://developers.google.com/gmail/api/quickstart/python.
+- Click "Enable the Gmail API".
+- When prompted to configure your OAuth Client, select "Desktop app" from the dropdown menu.
+- A message will appear telling you that the credentials have been created successfully.
+- Download the credentials by clicking the Download button.
+- Move the downloaded file to ```sh ~/.package-track/bin/credentials.json```.
+- *Note: The default name for this OAuth client is Quickstart. We recommend changing the name to package-track, but it is by no means necessary for the functionality of the program.
 
 ### Installation
 
@@ -43,7 +53,6 @@ package-track could definitely use some help. Feel free to email me at idm2114@c
 ### Todos
 
  - Refactor code
- - Enable opt-in email access
  - Add more shipping providers
 
 License
