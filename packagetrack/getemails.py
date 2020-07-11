@@ -17,6 +17,7 @@ import re
 from re import search
 #imports needed for iterating through lists
 import itertools
+import sys
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
@@ -143,12 +144,13 @@ def main():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    print("file ran")
-    try:
+    try:    
         os.makedirs("/Users/ian/.package-track/bin")
     except:
         pass
 
+    os.chdir("/Users/ian/.package-track/bin")
+    
     checkEmail = input("Do you want package-track to automatically find tracking numbers from your email? [y / n] ")
     if (checkEmail == "y"):
         if os.path.exists('token.pickle'):
@@ -159,8 +161,11 @@ def main():
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
+                try:
+                    flow = InstalledAppFlow.from_client_secrets_file(
                     'credentials.json', SCOPES)
+                except:
+                    sys.exit("It looks like you haven't downloaded the credentials.json file from Gmail's API. Please visit the README for more information on how to authenticate!")
                 creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
             with open('token.pickle', 'wb') as token:
