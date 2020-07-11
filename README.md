@@ -31,7 +31,7 @@ package-track is an easy to use package tracker that can automate the process of
 - When prompted to configure your OAuth Client, select "Desktop app" from the dropdown menu.
 - A message will appear telling you that the credentials have been created successfully.
 - Download the credentials by clicking the Download button.
-- Move the downloaded file to ```sh ~/.package-track/bin/credentials.json```.
+- Move the downloaded file to ```~/.package-track/bin/credentials.json```.
 - *Note: The default name for this OAuth client is Quickstart. We recommend changing the name to package-track, but it is by no means necessary for the functionality of the program.
 
 ### Installation
