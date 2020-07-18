@@ -18,7 +18,8 @@ from re import search
 #imports needed for iterating through lists
 import itertools
 import sys
-
+#imports needed for ensuring the right path cross-platform
+from os.path import expanduser
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
@@ -140,15 +141,17 @@ creds = None
 # created automatically when the authorization flow completes for the first
 # time.
 try:    
-    os.makedirs("/Users/ian/.package-track/bin")
+    home = expanduser("~")
+    os.makedirs(home+"/.package-track/bin")
 except:
     pass
 
-os.chdir("/Users/ian/.package-track/bin")
+home = expanduser("~")
+os.chdir(home+"/.package-track/bin")
 
 checkEmail = input("Do you want package-track to automatically find tracking numbers from your email? [y / n] ")
 if (checkEmail == "y"):
-    if os.path.exists('/Users/ian/.package-track/bin/token.pickle'):
+    if os.path.exists('~/.package-track/bin/token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
@@ -187,7 +190,7 @@ if (checkEmail == "y"):
             #the same length for iteration below)
             outputarray.append(".")
     #writing to a new output file
-    with open ('/Users/ian/.package-track/bin/tracking_from_email.txt', 'w') as filehandle:  
+    with open (expanduser("~")+'/.package-track/bin/tracking_from_email.txt', 'w') as filehandle:  
         prev = ""
         for (item, date) in zip(outputarray, datearray):
             timeframe = datetime.today() - timedelta(days=28)

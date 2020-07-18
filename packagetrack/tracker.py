@@ -7,10 +7,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import presence_of_element_located
 import time
 import os
+from os.path import expanduser
+import os.path
 
 trackinglist = []
 finaltrackinglist = []
-with open("/Users/ian/.package-track/bin/trackingnumbers.txt", "r") as fileHandle:
+path = (expanduser("~")+"/.package-track/bin") 
+with open("./trackingnumbers.txt", "r") as fileHandle:
     for line in fileHandle:
         current = line[:-1]
         trackinglist.append(current)
@@ -50,7 +53,7 @@ for number in trackinglist:
         if ("Delivered" in result.text):
             delivered = True
     # writing contents to new temp file
-    with open ('/Users/ian/.package-track/bin/tempfile.txt', 'w') as filehandle:
+    with open ('./tempfile.txt', 'w') as filehandle:
         for result in results:
             if ("WE KNOW WHERE YOUR STUFF IS." in result.text):
                 continue
@@ -59,8 +62,8 @@ for number in trackinglist:
     # comparing the results of old and new files if old file exists
     # returning difference to provide most accurate (recent) tracking info
     try: 
-        oldfile = open((number)+'.txt', "r+")
-        tempfile = open("/Users/ian/.package-track/bin/tempfile.txt", "r+")
+        oldfile = open("./"+(number)+'.txt', "r+")
+        tempfile = open("./tempfile.txt", "r+")
         old_dict = oldfile.readlines()
         new_dict = tempfile.readlines()
         oldfile.close()
@@ -70,12 +73,12 @@ for number in trackinglist:
         if diff: 
             print(diff[0].rstrip())
             old_dict = new_dict
-            with open ("/Users/ian/.package-track/bin/"+(number)+'.txt', "w") as filehandle:
+            with open ("./"+(number)+'.txt', "w") as filehandle:
                 for line in old_dict:
                     filehandle.write('%s\n' % line.rstrip())
     # if older version of the file isn't found, create it based on temp file
     except:
-        with open("/Users/ian/.package-track/bin/"+(number)+'.txt', "w") as filehandle:
+        with open("./"+(number)+'.txt', "w") as filehandle:
             for result in results: 
                 if ("WE KNOW WHERE YOUR STUFF IS." in result.text):
                     continue
@@ -84,21 +87,21 @@ for number in trackinglist:
     if (delivered):
         print("package " + number + " was delivered, tracking number removed from list")
         try:
-            os.remove("/Users/ian/.package-track/bin/"+ (number)+'.txt')
+            os.remove("./"+ (number)+'.txt')
         except:
             pass
 
     finaltrackinglist.append(number)
 
 #updating tracking list txt file
-with open ('/Users/ian/.package-track/bin/trackingnumbers.txt', 'w') as filehandle:
+with open ('./trackingnumbers.txt', 'w') as filehandle:
     for item in finaltrackinglist:
         filehandle.write('%s\n' % item)
 
 #removing tempfile 
 try: 
-    os.remove("/Users/ian/.package-track/bin/tempfile.txt")
-    os.remove("/Users/ian/.package-track/bin/tracking_from_email.txt")
+    os.remove("./tempfile.txt")
+    os.remove("./tracking_from_email.txt")
 except: 
     pass 
 #print("program complete!")

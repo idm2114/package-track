@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 
-import pandas as pd
-import numpy as np
-import csv
 import os 
+from os.path import expanduser
 import re
 
 trackinglist = []
-path = "/Users/ian/.package-track/bin/"
+home = expanduser("~")
+path = home+"/.package-track/bin/"
 files = os.listdir(path)
 for file in files:
     if file.endswith(".txt"):
@@ -68,7 +67,7 @@ while (more):
        more = False
 
 #writing list to txt file
-with open ('/Users/ian/.package-track/bin/trackingnumbers.txt', 'w') as filehandle:
+with open ('./trackingnumbers.txt', 'w') as filehandle:
     for item in trackinglist:
         filehandle.write('%s\n' % item)
 
